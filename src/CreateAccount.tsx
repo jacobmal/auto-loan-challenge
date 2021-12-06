@@ -1,5 +1,6 @@
 import { FunctionComponent } from "react";
 import { Container, Row, Form, Button } from "react-bootstrap";
+import { TextField } from "./Forms";
 
 interface CreateAccountProps {
     
@@ -12,14 +13,8 @@ const CreateAccount: FunctionComponent<CreateAccountProps> = () => {
             <Row className="mt-4">
                 <h2>Create Account</h2>
                 <Form>
-                    <Form.Group className="mb-3" controlId="autoMake">
-                        <Form.Label>Email Address</Form.Label>
-                        <Form.Control type="email" placeholder="Enter Email" />
-                    </Form.Group>
-                    <Form.Group className="mb-3" controlId="autoMake">
-                        <Form.Label>Password</Form.Label>
-                        <Form.Control type="password" placeholder="Enter Password" />
-                    </Form.Group>
+                    <TextField controlId="emailAddress" label="Email Address" placeholder="Enter Email" type="email" />
+                    <TextField controlId="password" label="Password" placeholder="Enter Password" type="password" />
                     <Button variant="primary">Submit</Button>
                 </Form>
             </Row>

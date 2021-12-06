@@ -1,10 +1,10 @@
 import { FunctionComponent } from "react";
-import { FormControl, InputGroup, Button, Form, Container, Row, Col } from "react-bootstrap";
+import { Button, Form, Container, Row, Col } from "react-bootstrap";
+import { TextField, CurrencyField } from "./Forms";
 
  
 const Landing: FunctionComponent = () => {
-    // TODO:    Refactor to reduce duplication
-    //          Add field validation
+    // TODO:    Add field validation
     return (
         <Container>
             <Row className="mt-4">
@@ -15,35 +15,14 @@ const Landing: FunctionComponent = () => {
                 <Col lg="8">
                     <Form>
                         <Row>
-                            <Form.Group as={Col} md="4" className="mb-3">
-                                <Form.Label>Auto Purchase Price</Form.Label>
-                                <InputGroup id="autoPurchasePrice">
-                                    <InputGroup.Text>$</InputGroup.Text>
-                                    <FormControl aria-label="Amount" />
-                                </InputGroup>
-                            </Form.Group>
-                            <Form.Group as={Col} md="4" className="mb-3" controlId="autoMake">
-                                <Form.Label>Auto Make</Form.Label>
-                                <Form.Control type="text" placeholder="Example: Ford" />
-                            </Form.Group>
-                            <Form.Group as={Col} md="4" className="mb-3" controlId="autoModel">
-                                <Form.Label>Auto Model</Form.Label>
-                                <Form.Control type="text" placeholder="Example: Mustang" />
-                            </Form.Group>
+                            <CurrencyField controlId="autoPurchasePrice" label="Auto Purchase Price" md={4} />
+                            <TextField controlId="autoMake" placeholder="Example: Ford" label="Auto Make" md={4} />
+                            <TextField controlId="autoModel" placeholder="Example: Mustang" label="Auto Model" md={4} />
                         </Row>
                         
                         <Row>
-                            <Form.Group as={Col} md="6" className="mb-3">
-                                <Form.Label>Estimated Yearly Income </Form.Label>
-                                <InputGroup id="estimatedYearlyIncome">
-                                    <InputGroup.Text>$</InputGroup.Text>
-                                    <FormControl aria-label="Amount" />
-                                </InputGroup>
-                            </Form.Group>
-                            <Form.Group as={Col} md="6" className="mb-3" controlId="estimatedCreditScore">
-                                <Form.Label>Estimated Credit Score </Form.Label>
-                                <Form.Control type="text" />
-                            </Form.Group>
+                            <CurrencyField controlId="estimatedYearlyIncome" label="Estimated Yearly Income" md={6} />
+                            <TextField controlId="estimatedCreditScore" label="Estimated Credit Score" md={6} />
                         </Row>
                         
                         <Button variant="primary">Submit</Button>
