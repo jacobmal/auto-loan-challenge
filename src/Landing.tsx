@@ -1,25 +1,26 @@
-import { FormEvent, FunctionComponent, useState } from "react";
+import { FunctionComponent } from "react";
 import { Button, Form, Container, Row, Col } from "react-bootstrap";
 import { TextField, CurrencyField } from "./Forms";
+import { Formik } from 'formik'; 
+import * as Yup from 'yup';
 
  
 const Landing: FunctionComponent = () => {
-    // TODO:    Add field validation
-    const [validated, setValidated] = useState(false);
-    const [purchasePrice, setPurchasePrice] = useState('');
-    const [autoMake, setAutoMake] = useState('');
-    const [autoModel, setAutoModel] = useState('');
-    const [yearlyIncome, setYearlyIncome] = useState('');
-    const [creditScore, setCreditScore] = useState('');
-
-    const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
-        const form = event.currentTarget;
-        if (form.checkValidity() === false) {
-            event.preventDefault();
-            event.stopPropagation();
-        }
-        setValidated(true);
-    };
+    const schema = Yup.object().shape({
+        autoPurchasePrice: Yup.number()
+            .positive("Must be positive")
+            .required('Required'),
+        autoMake: Yup.string()
+            .required('Required'),
+        autoModel: Yup.string()
+            .required('Required'),
+        estimatedYearlyIncome: Yup.number()
+            .positive("Must be positive")
+            .required('Required'),
+        estimatedCreditScore: Yup.number()
+            .min(300, "Must be greater than 300")
+            .max(850, "Must be less than 850")
+      });
     
     return (
         <Container>
@@ -29,20 +30,40 @@ const Landing: FunctionComponent = () => {
                     <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Odio pellentesque diam volutpat commodo. Pretium aenean pharetra magna ac placerat vestibulum lectus mauris ultrices. Dictum at tempor commodo ullamcorper. Tincidunt augue interdum velit euismod. Lacinia quis vel eros donec ac odio tempor orci. Tristique sollicitudin nibh sit amet commodo nulla facilisi. Pretium aenean pharetra magna ac placerat vestibulum lectus mauris. In eu mi bibendum neque egestas congue quisque. Malesuada nunc vel risus commodo viverra maecenas accumsan.</p>
                 </Col>
                 <Col lg="8">
-                    <Form noValidate validated={validated} onSubmit={handleSubmit}>
-                        <Row>
-                            <CurrencyField controlId="autoPurchasePrice" label="Auto Purchase Price" md={4} setData={setPurchasePrice} data={purchasePrice} />
-                            <TextField controlId="autoMake" placeholder="Example: Ford" label="Auto Make" md={4} setData={setAutoMake} data={autoMake} />
-                            <TextField controlId="autoModel" placeholder="Example: Mustang" label="Auto Model" md={4} setData={setAutoModel} data={autoModel} />
-                        </Row>
-                        
-                        <Row>
-                            <CurrencyField controlId="estimatedYearlyIncome" label="Estimated Yearly Income" md={6} setData={setYearlyIncome} data={yearlyIncome} />
-                            <TextField controlId="estimatedCreditScore" label="Estimated Credit Score" md={6} setData={setCreditScore} data={creditScore} />
-                        </Row>
-                        
-                        <Button variant="primary" type="submit">Submit</Button>
-                    </Form>
+                    <Formik
+                        validationSchema={schema}
+                        onSubmit={console.log}
+                        initialValues={{
+                            autoPurchasePrice: '',
+                            autoMake: '',
+                            autoModel: '',
+                            estimatedYearlyIncome: '',
+                            estimatedCreditScore: ''
+                        }}
+                    >
+                    {({
+                        handleSubmit,
+                        handleChange,
+                        values,
+                        touched,
+                        errors,
+                    }) => (
+                        <Form noValidate onSubmit={handleSubmit}>
+                            <Row>
+                                <CurrencyField controlId="autoPurchasePrice" label="Auto Purchase Price" md={4} data={values.autoPurchasePrice} handleChange={handleChange} isValid={touched.autoPurchasePrice && !errors.autoPurchasePrice} />
+                                <TextField controlId="autoMake" placeholder="Example: Ford" label="Auto Make" md={4} data={values.autoMake} handleChange={handleChange} isValid={touched.autoMake && !errors.autoMake} />
+                                <TextField controlId="autoModel" placeholder="Example: Mustang" label="Auto Model" md={4} data={values.autoModel} handleChange={handleChange} isValid={touched.autoModel && !errors.autoModel} />
+                            </Row>
+                            
+                            <Row>
+                                <CurrencyField controlId="estimatedYearlyIncome" label="Estimated Yearly Income" md={6} data={values.estimatedYearlyIncome} handleChange={handleChange} isValid={touched.estimatedYearlyIncome && !errors.estimatedYearlyIncome} />
+                                <TextField controlId="estimatedCreditScore" label="Estimated Credit Score" md={6} data={values.estimatedCreditScore} handleChange={handleChange} isValid={touched.estimatedCreditScore && !errors.estimatedCreditScore} />
+                            </Row>
+                            
+                            <Button variant="primary" type="submit">Submit</Button>
+                        </Form>
+                    )}
+                    </Formik>
                 </Col>
             </Row>
         </Container>
