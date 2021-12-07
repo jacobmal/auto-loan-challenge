@@ -17,7 +17,7 @@ const CreateAccount: FunctionComponent<CreateAccountProps> = () => {
         password: Yup.string()
             .required('Required')
             .min(8, 'Too Short!')
-            .matches(new RegExp('(?=.*[\d!@#$%^&*()+=<>,.?/;:|]).{8,}')),
+            .matches(new RegExp('(?=.*[\d!@#$%^&*()+=<>,.?/;:|]).{8,}')), // TODO: Not all special characters, fix later
       });
 
     return (
@@ -26,7 +26,7 @@ const CreateAccount: FunctionComponent<CreateAccountProps> = () => {
                 <h2>Create Account</h2>
                 <Formik
                     validationSchema={schema}
-                    onSubmit={console.log}
+                    onSubmit={() => alert("Account created!")}
                     initialValues={{
                         email: '',
                         password: ''
