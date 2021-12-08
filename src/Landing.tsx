@@ -21,6 +21,7 @@ const Landing: FunctionComponent = () => {
             .positive("Must be positive")
             .required('Required'),
         estimatedCreditScore: Yup.number()
+            .required('Required')
             .min(300, "Must be greater than 300")
             .max(850, "Must be less than 850")
       });
@@ -75,14 +76,14 @@ const Landing: FunctionComponent = () => {
                     }) => (
                         <Form noValidate onSubmit={handleSubmit}>
                             <Row>
-                                <CurrencyField controlId="autoPurchasePrice" label="Auto Purchase Price" md={4} data={values.autoPurchasePrice} handleChange={handleChange} isValid={touched.autoPurchasePrice && !errors.autoPurchasePrice} />
-                                <TextField controlId="autoMake" placeholder="Example: Ford" label="Auto Make" md={4} data={values.autoMake} handleChange={handleChange} isValid={touched.autoMake && !errors.autoMake} />
-                                <TextField controlId="autoModel" placeholder="Example: Mustang" label="Auto Model" md={4} data={values.autoModel} handleChange={handleChange} isValid={touched.autoModel && !errors.autoModel} />
+                                <CurrencyField controlId="autoPurchasePrice" label="Auto Purchase Price" md={4} data={values.autoPurchasePrice} handleChange={handleChange} touched={touched.autoPurchasePrice} errors={errors.autoPurchasePrice} />
+                                <TextField controlId="autoMake" placeholder="Example: Ford" label="Auto Make" md={4} data={values.autoMake} handleChange={handleChange} touched={touched.autoMake} errors={errors.autoMake} />
+                                <TextField controlId="autoModel" placeholder="Example: Mustang" label="Auto Model" md={4} data={values.autoModel} handleChange={handleChange} touched={touched.autoModel} errors={errors.autoModel} />
                             </Row>
                             
                             <Row>
-                                <CurrencyField controlId="estimatedYearlyIncome" label="Estimated Yearly Income" md={6} data={values.estimatedYearlyIncome} handleChange={handleChange} isValid={touched.estimatedYearlyIncome && !errors.estimatedYearlyIncome} />
-                                <TextField controlId="estimatedCreditScore" label="Estimated Credit Score" md={6} data={values.estimatedCreditScore} handleChange={handleChange} isValid={touched.estimatedCreditScore && !errors.estimatedCreditScore} />
+                                <CurrencyField controlId="estimatedYearlyIncome" label="Estimated Yearly Income" md={6} data={values.estimatedYearlyIncome} handleChange={handleChange} touched={touched.estimatedYearlyIncome} errors={errors.estimatedYearlyIncome} />
+                                <TextField controlId="estimatedCreditScore" label="Estimated Credit Score" md={6} data={values.estimatedCreditScore} handleChange={handleChange} touched={touched.estimatedCreditScore} errors={errors.estimatedCreditScore} />
                             </Row>
                             
                             <Button variant="primary" type="submit">Submit</Button>

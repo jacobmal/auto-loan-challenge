@@ -17,7 +17,9 @@ const CreateAccount: FunctionComponent<CreateAccountProps> = () => {
         password: Yup.string()
             .required('Required')
             .min(8, 'Too Short!')
-            .matches(new RegExp('(?=.*[\d!@#$%^&*()+=<>,.?/;:|]).{8,}')), // TODO: Not all special characters, fix later
+            .matches(
+                /[\d!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]/, 
+                'Need one special character or number'),
       });
 
     return (
@@ -40,8 +42,8 @@ const CreateAccount: FunctionComponent<CreateAccountProps> = () => {
                     errors,
                 }) => (
                     <Form noValidate onSubmit={handleSubmit}>
-                        <TextField controlId="email" label="Email Address" placeholder="Enter Email" type="email" data={values.email} handleChange={handleChange} isValid={touched.email && !errors.email} />
-                        <TextField controlId="password" label="Password" placeholder="Enter Password" type="password" data={values.password} handleChange={handleChange} isValid={touched.password && !errors.password} />
+                        <TextField controlId="email" label="Email Address" placeholder="Enter Email" type="email" data={values.email} handleChange={handleChange} touched={touched.email} errors={errors.email} />
+                        <TextField controlId="password" label="Password" placeholder="Enter Password" type="password" data={values.password} handleChange={handleChange} touched={touched.password} errors={errors.password}/>
                         <Button variant="primary" type="submit">Submit</Button>
                     </Form>
                 )}
