@@ -2,10 +2,13 @@ import { FunctionComponent } from "react";
 import { Button, Form, Container, Row, Col } from "react-bootstrap";
 import { TextField, CurrencyField } from "./Forms";
 import { Formik } from 'formik'; 
+import { useNavigate } from "react-router-dom";
 import * as Yup from 'yup';
+import { SubmitApplicationResponse } from "./server";
 
- 
 const Landing: FunctionComponent = () => {
+    const navigate = useNavigate();
+    
     const schema = Yup.object().shape({
         autoPurchasePrice: Yup.number()
             .positive("Must be positive")
@@ -32,7 +35,29 @@ const Landing: FunctionComponent = () => {
                 <Col lg="8">
                     <Formik
                         validationSchema={schema}
-                        onSubmit={console.log}
+                        onSubmit={(values) => {
+                            fetch('/api/submit-application', {
+                            method: 'POST',
+                            headers: { "Content-Type": "application/json" },
+                            body: JSON.stringify(values)})
+                                .then(response => {
+                                    if (response.status >= 400 && response.status < 600) {
+                                        throw new Error("Bad response from server");
+                                    }
+                                    return response.json()
+                                })
+                                .then((data: SubmitApplicationResponse) => {
+                                    if (data.qualified) {
+                                        console.log("Qualified");
+                                        navigate("/create-account");
+                                    }
+                                    else {
+                                        console.log("Disqualified");
+                                        navigate("/disqualified", { state: { message: data.message } });
+                                    }
+                                })
+                                .catch((error) => alert(error))
+                        }}
                         initialValues={{
                             autoPurchasePrice: '',
                             autoMake: '',

@@ -11,7 +11,7 @@ function App() {
         <Routes>
           <Route path="/" element={ <Landing /> }/>
           <Route path="/create-account" element={ <CreateAccount />}/>
-          <Route path="/disqualified" element={ <Disqualified disqualMessage={ "Test" }/>}/>
+          <Route path="/disqualified" element={ <Disqualified />}/>
         </Routes>
       </Router>
     </div>
