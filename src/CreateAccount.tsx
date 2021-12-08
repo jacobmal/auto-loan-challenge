@@ -1,15 +1,26 @@
-import { FunctionComponent } from "react";
+import { FunctionComponent, useEffect } from "react";
 import { Container, Row, Form, Button } from "react-bootstrap";
 import { TextField } from "./Fields";
 import { Formik } from 'formik'; 
 import * as Yup from 'yup';
+import { useLocation, useNavigate } from "react-router-dom";
 
 interface CreateAccountProps {
     
 }
  
 const CreateAccount: FunctionComponent<CreateAccountProps> = () => {
+    const {state} = useLocation();
 
+    // Navigate away if directly accessing the path
+    const navigate = useNavigate();
+    useEffect(() => {
+        if (!state) {
+            navigate('/page-not-found');
+        }
+    }, [state, navigate]) 
+
+    // The validation schema used in the form
     const schema = Yup.object().shape({
         email: Yup.string()
             .required('Required')

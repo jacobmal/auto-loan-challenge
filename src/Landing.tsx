@@ -54,7 +54,7 @@ const Landing: FunctionComponent = () => {
                                 .then((data: SubmitApplicationResponse) => {
                                     if (data.qualified) {
                                         console.log("Qualified");
-                                        navigate("/create-account");
+                                        navigate("/create-account", { state: { message: data.message } });
                                     }
                                     else {
                                         console.log("Disqualified");
