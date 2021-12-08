@@ -10,8 +10,7 @@ const Disqualified: FunctionComponent = () => {
         if (!state) {
             navigate('/page-not-found');
         }
-    }, [state, navigate]
-    )   
+    }, [state, navigate])   
 
     return (
         <Container className="disqualified">
