@@ -9,14 +9,17 @@ export function makeServer() {
             const attrs = JSON.parse(request.requestBody);
             const {autoPurchasePrice, estimatedYearlyIncome, estimatedCreditScore} = attrs;
             
+            // Bad Request if purchase price is too high
             if (autoPurchasePrice > 1000000) {
                 return new Response(400);
             }
 
+            // Purchase price too high
             if (autoPurchasePrice > (1/5 * estimatedYearlyIncome)) {
                 return new Response(200, undefined, {qualified: false, message: "Purchase price too high"});
             }
 
+            // Credit score too low
             if (estimatedCreditScore < 600) {
                 return new Response(200, undefined, {qualified: false, message: "Credit score too low"});
             }
@@ -29,6 +32,6 @@ export function makeServer() {
 }
 
 export interface SubmitApplicationResponse {
-    qualified: string,
+    qualified: boolean,
     message: string
 }

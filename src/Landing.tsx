@@ -1,6 +1,6 @@
 import { FunctionComponent } from "react";
 import { Button, Form, Container, Row, Col } from "react-bootstrap";
-import { TextField, CurrencyField } from "./Forms";
+import { TextField, CurrencyField } from "./Fields";
 import { Formik } from 'formik'; 
 import { useNavigate } from "react-router-dom";
 import * as Yup from 'yup';
@@ -9,8 +9,10 @@ import { SubmitApplicationResponse } from "./server";
 const Landing: FunctionComponent = () => {
     const navigate = useNavigate();
     
+    // The validation schema used in the form
     const schema = Yup.object().shape({
         autoPurchasePrice: Yup.number()
+            .typeError("Must be numeric")
             .positive("Must be positive")
             .required('Required'),
         autoMake: Yup.string()
@@ -18,10 +20,12 @@ const Landing: FunctionComponent = () => {
         autoModel: Yup.string()
             .required('Required'),
         estimatedYearlyIncome: Yup.number()
+            .typeError("Must be numeric")
             .positive("Must be positive")
             .required('Required'),
         estimatedCreditScore: Yup.number()
             .required('Required')
+            .typeError("Must be numeric")
             .min(300, "Must be greater than 300")
             .max(850, "Must be less than 850")
       });
@@ -57,7 +61,7 @@ const Landing: FunctionComponent = () => {
                                         navigate("/disqualified", { state: { message: data.message } });
                                     }
                                 })
-                                .catch((error) => alert(error))
+                                .catch((error) => alert(error)) // Further error handling would be added in production 
                         }}
                         initialValues={{
                             autoPurchasePrice: '',

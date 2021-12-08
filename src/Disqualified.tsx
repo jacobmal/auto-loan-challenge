@@ -1,6 +1,6 @@
 import { FunctionComponent } from "react";
 import { Container } from "react-bootstrap";
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 
 const Disqualified: FunctionComponent = () => {
     const {state} = useLocation();
